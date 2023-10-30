@@ -44,10 +44,10 @@ func (a *ruleProcessor_s) search() (err error) {
 
 	if err != nil {
 		return
-	} else {
-		for _, rsp := range cmd.Data {
-			a.pSearchResults.AddNum(rsp.SearchResults()...)
-		}
+	}
+
+	for _, rsp := range cmd.Data {
+		a.pSearchResults.AddNum(rsp.SearchResults()...)
 	}
 
 	return

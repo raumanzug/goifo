@@ -64,7 +64,7 @@ if you have `goifo` installed correctly.
 	              move: []
 
 `goifo` can handle multiple imap servers.  Each imap server manages
-mailboxes.  Each mailbox this configuration file contains a sequence of
+mailboxes.  For each mailbox this configuration file contains a sequence of
 instructions.  Aforementioned configuration file manages one imap server.
 This server manages several mailboxes.  For two of them, `INBOX` and
 `Archive`, `goifo` instruct to move or delete emails according to rules
