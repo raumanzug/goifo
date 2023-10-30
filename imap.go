@@ -34,7 +34,14 @@ func (a *ruleProcessor_s) append(s string) {
 
 // search performs SEARCH command.
 func (a *ruleProcessor_s) search() (err error) {
-	cmd, err := imap.Wait(a.pClient.Search(a.accu...))
+	var cmd *imap.Command
+
+	if len(a.accu) == 0 {
+		cmd, err = imap.Wait(a.pClient.Search("ALL"))
+	} else {
+		cmd, err = imap.Wait(a.pClient.Search(a.accu...))
+	}
+
 	if err != nil {
 		return
 	} else {
