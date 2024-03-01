@@ -19,6 +19,7 @@ var (
 	xdgConfigDir string // Standard config dir according to XDG.  Most likely ~/.config
 	configDir    string // Most likely ~/.config/goifo
 	configFile   string // Name of config file.  Most likely ~/.config/goifo/config.yaml
+	caFile       string // Name of file containing ca certificates.  Most likely ~/.config/ca.pem
 )
 
 // initConstants initialize aforementioned global variables
@@ -31,6 +32,7 @@ func initConstants() (err error) {
 
 	configDir = path.Join(xdgConfigDir, projectName)
 	configFile = path.Join(configDir, "config.yaml")
+	caFile = path.Join(xdgConfigDir, "ca.pem")
 
 	return
 }

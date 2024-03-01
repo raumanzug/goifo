@@ -8,6 +8,12 @@ command line parameter, i.e. simply by
 
 if you have `goifo` installed correctly.
 
+# CA x509 certificates
+
+Optional file `"{HOME}/.config/ca.pem"` contains x509 CA certificates
+in PEM format for validating x509 server certificates which IMAP servers
+present during TLS sessions.
+
 # Configuring `goifo`
 
 `goifo` is configured by a [yaml](http://yaml.org) file located in

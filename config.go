@@ -3,6 +3,7 @@ package main
 // stuff for interpreting yaml config file.
 
 import (
+	"crypto/tls"
 	"errors"
 	"fmt"
 	"os"
@@ -97,7 +98,8 @@ type iServerProcessor interface {
 		noSASLExternal bool,
 		username string,
 		password string,
-		identity string) (err error) // connects an imap server and authenticate
+		identity string,
+		pTLSConfig *tls.Config) (err error) // connects an imap server and authenticate
 	newMailboxProcessor() iMailboxProcessor // produce iMailboxProcessor for processing mailbox related to this server.
 	logout() (err error)                    // perform imap's LOGOUT command for shutting down imap sessions.
 }
@@ -156,7 +158,8 @@ func (processor dryRunServerProcessor_s) connect(
 	noSASLExternal bool,
 	username string,
 	password string,
-	identity string) (err error) {
+	identity string,
+	pTLSConfig *tls.Config) (err error) {
 	return
 }
 
@@ -632,7 +635,7 @@ func process_mailbox(processor iMailboxProcessor, pMailbox *mailbox_s) (err erro
 }
 
 // process_server performs actions related to a server.
-func process_server(processor iServerProcessor, pServer *server_s) (err error) {
+func process_server(processor iServerProcessor, pServer *server_s, pTLSConfig *tls.Config) (err error) {
 	err = processor.connect(
 		pServer.Host,
 		pServer.NoTLS,
@@ -641,7 +644,8 @@ func process_server(processor iServerProcessor, pServer *server_s) (err error) {
 		pServer.NoSASLExternal,
 		pServer.Username,
 		pServer.Password,
-		pServer.Identity)
+		pServer.Identity,
+		pTLSConfig)
 	if err != nil {
 		return
 	}
@@ -659,10 +663,10 @@ func process_server(processor iServerProcessor, pServer *server_s) (err error) {
 }
 
 // process_goifo_conf performs actions instructed by yaml config file.
-func process_goifo_conf(processor iConfigProcessor, pConfigData *goifo_conf_s) (err error) {
+func process_goifo_conf(processor iConfigProcessor, pConfigData *goifo_conf_s, pTLSConfig *tls.Config) (err error) {
 	for _, server := range pConfigData.Servers {
 		serverProcessor := processor.newServerProcessor()
-		err = errors.Join(err, process_server(serverProcessor, &server))
+		err = errors.Join(err, process_server(serverProcessor, &server, pTLSConfig))
 	}
 
 	return

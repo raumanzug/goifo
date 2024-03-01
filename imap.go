@@ -4,6 +4,7 @@ package main
 // Here, some interfaces will be implemented defined [here](config.go).
 
 import (
+	"crypto/tls"
 	"errors"
 	"log"
 
@@ -122,11 +123,12 @@ func (a *serverProcessor_s) connect(
 	noSASLExternal bool,
 	username string,
 	password string,
-	identity string) (err error) {
+	identity string,
+	pTLSConfig *tls.Config) (err error) {
 	if noTLS {
 		a.pClient, err = imap.Dial(host)
 	} else {
-		a.pClient, err = imap.DialTLS(host, nil)
+		a.pClient, err = imap.DialTLS(host, pTLSConfig)
 	}
 	if err != nil {
 		return

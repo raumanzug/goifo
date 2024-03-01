@@ -1,6 +1,8 @@
 package main
 
 import (
+	"crypto/tls"
+	"crypto/x509"
 	"log"
 )
 
@@ -9,6 +11,16 @@ func main() {
 	if err := initConstants(); err != nil {
 		log.Fatal("problem during initializing constants", err)
 	}
+
+	pCertPool, err := x509.SystemCertPool()
+	if err != nil {
+		log.Fatal("problem getting system cert pool", err)
+	}
+	if err := get_ca_cert_pool(pCertPool); err != nil {
+		log.Fatal("problem reading ca certificates", err)
+	}
+	tlsConfig := tls.Config{
+		RootCAs: pCertPool}
 
 	// load config file and interprete yaml.
 	var configData goifo_conf_s
@@ -21,7 +33,7 @@ func main() {
 	{
 		configProcessor := dryRunConfigProcessor_s{}
 
-		if err := process_goifo_conf(&configProcessor, &configData); err != nil {
+		if err := process_goifo_conf(&configProcessor, &configData, &tlsConfig); err != nil {
 			log.Fatal("[dry run] ", err)
 		}
 	}
@@ -30,7 +42,7 @@ func main() {
 	{
 		configProcessor := configProcessor_s{}
 
-		if err := process_goifo_conf(&configProcessor, &configData); err != nil {
+		if err := process_goifo_conf(&configProcessor, &configData, &tlsConfig); err != nil {
 			log.Fatal(err)
 		}
 	}
