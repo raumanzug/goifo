@@ -4,7 +4,7 @@ package main
 
 import (
 	"os"
-	"path"
+	"path/filepath"
 	"time"
 )
 
@@ -30,9 +30,9 @@ func initConstants() (err error) {
 		return
 	}
 
-	configDir = path.Join(xdgConfigDir, projectName)
-	configFile = path.Join(configDir, "config.yaml")
-	caFile = path.Join(xdgConfigDir, "ca.pem")
+	configDir = filepath.Join(xdgConfigDir, projectName)
+	configFile = filepath.Join(configDir, "config.yaml")
+	caFile = filepath.Join(xdgConfigDir, "ca.pem")
 
 	return
 }
