@@ -25,7 +25,7 @@ var (
 // initConstants initialize aforementioned global variables
 // Call this function before any other action of goiko's source code!
 func initConstants() (err error) {
-	xdgConfigDir, err := os.UserConfigDir()
+	xdgConfigDir, err = os.UserConfigDir()
 	if err != nil {
 		return
 	}
