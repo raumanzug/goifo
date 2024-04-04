@@ -1,16 +1,17 @@
 `goifo` clears up your imap servers by sending emails stored on
 it to mailboxes or deleting them. `goifo` is software intended
 to use as cron job and is controlled by a configuration file
-`"${HOME}/.config/goifo/config.yaml"`.  It can be started without any
+`"${XDG_CONFIGDIR}/goifo/config.yaml"`.  It can be started without any
 command line parameter, i.e. simply by
 
 	`go env GOPATH`/bin/goifo
 
-if you have `goifo` installed correctly.
+if you have `goifo` installed correctly.  `${XDG_CONFIGDIR}` is set to
+`${HOME}/.config/` on unix, usually.
 
 # CA x509 certificates
 
-Optional file `"{HOME}/.config/ca.pem"` contains x509 CA certificates
+Optional file `"${XDG_CONFIGDIR}/ca.pem"` contains x509 CA certificates
 in PEM format for validating x509 server certificates which IMAP servers
 present during TLS sessions.
 
